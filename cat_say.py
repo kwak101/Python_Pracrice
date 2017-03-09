@@ -8,6 +8,7 @@ def cat_say(text):
     print ('       <{0}>'.format(text))
     print ('        {0}'.format('-' * textlen))
     print ('        /')
+    print ('        //')
 
 def main():
     text = raw_input ('what can cat say?')
