@@ -7,4 +7,8 @@ horse
 human
 woman
 man
+elephant
+jaguar
+giraffe
+
 
