@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # "Non-Ascii character를 막기 위함
 #
@@ -70,17 +69,17 @@ days_of_the_week_list = list(days_of_the_week)
 print("type of this object is {0}".format(type(days_of_the_week)))
 print("type of this object is {0}".format(type(days_of_the_week_list)))
 
-print "print contacts_as_list_of_tuple\n"
+print ("print contacts_as_list_of_tuple\n")
 contacts_as_list_of_tuple = (('은호','010-3167-7994'),('소영','010-6271-7994'),('용재','010-6281-7994'))
 for element in contacts_as_list_of_tuple:
-    print element
+    print (element)
 
 for (name,phone) in contacts_as_list_of_tuple:
     print ("{0} - {1}".format(name,phone))
 
 #hosts=open('/etc/hosts')
 #hosts_file_contents = hosts.read()
-#print(hosts_file_contes)
+#print(hosts_file_contents)
 #hosts.close()
 
 with open('/etc/hosts') as hosts:
@@ -97,8 +96,8 @@ with open('/Users/kwak101/MyWorkingLab/SRE.txt.mp3','rb') as mp3:
     print (mp3.mode)
 
 try:
-    with open('./contacts2.txt','r') as contacts:
-        contacts.write(contacts_as_list_of_tuple.__str__())
+    with open('./contacts2.txt','w') as contacts:
+        contacts.write(contacts_as_list_of_tuple.__str__()+'\n')
 except:
     print("file open error")
 
@@ -134,11 +133,11 @@ print(time.timezone)
 
 import cat_say
 
-def main()
+def main():
     cat_say.cat_say("huhuhuhuhu")
     cat_say.cat_say("hahahahahaha")
 
 
-if __name__ == '__main__'
+if __name__ == '__main__':
     main()
 

@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 def cat_say(text):
@@ -11,7 +10,8 @@ def cat_say(text):
     print ('        //')
 
 def main():
-    text = raw_input ('what can cat say?')
+    # in python2, use raw_input () instead of input ()
+    text = input ('what can cat say?')
     cat_say(text)
 
 if __name__ == '__main__':
