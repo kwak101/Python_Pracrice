@@ -5,3 +5,6 @@ lion
 tiger
 horse
 human
+woman
+man
+
