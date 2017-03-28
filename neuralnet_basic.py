@@ -1,5 +1,12 @@
 # -*- coding : utf-8 -*-
 
+import numpy as np
+import matplotlib.pyplot as plt
+import sys,os
+sys.path.append("../deep-learning-from-scratch")
+from common.functions import softmax, cross_entropy_error
+from common.gradient import numerical_gradient
+
 def numerical_diff (f,x):
     h = 1e-4
     return (f(x+h) - f(x-h))/(2*h)
@@ -45,7 +52,7 @@ def function_3(x):
 def function_2(x,y):
     return x**2 + y**2
 
-def numerical_gradient (f, x):
+def numerical_gradient_local (f, x):
     h= 1e-4
     grad = np.zeros_like(x)
 
@@ -60,10 +67,34 @@ def numerical_gradient (f, x):
 
     return grad
 
+class simplenet:
+    def __init__(self):
+        self.S = np.random.randn(2,3)
+
+    def predict (self, x):
+        return np.dot(x, self.S)
+
+    def loss (self, x, t):
+        z= self.predict(x)
+        y= softmax(z)
+        loss= cross_entropy_error(y,t) # t is one-hot encoded answer label
+        return loss
+
 
 def main():
-    yy = gradient_descent(function_3(), np.array([-3.0,4.0]))
-    print (yy)
+    #yy = gradient_descent(function_3, np.array([-3.0,4.0]), 1e-10)
+    yy=simplenet()
+    xx = np.array([0.6,0.9])
+    p =yy.predict(xx)
 
-if __name__ == "__main__"
+    t = (p>=p.max()).astype(np.int)
+
+    def fnc(W):
+        return yy.loss(xx,t)
+
+    dW= numerical_gradient(fnc,yy.S)
+    print (dW)
+
+
+if __name__ == "__main__":
     main()

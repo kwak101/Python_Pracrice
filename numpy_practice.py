@@ -1,8 +1,11 @@
 # -*- coding : utf-8 -*-
 
+from mpl_toolkits.mplot3d.axes3d import Axes3D
+import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.image import imread
-import matplotlib.pylab as plt
+from matplotlib import cm
+from mpl_toolkits.mplot3d.axes3d import get_test_data
+
 
 #x= np.array([1.0,2.0,3.0])
 #print (x)
@@ -49,23 +52,7 @@ import matplotlib.pylab as plt
 #plt.show()
 
 
-def numerical_diff (f,x):
-    h = 1e-4
-    return (f(x+h) - f(x-h))/2*h
-
-def function_1(x):
-    return 0.01*x**2+0.1*x
-
-def plt_func():
-    x = np.arange(0.0,20.0, 0.1)
-    y = function_1(x)
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.plot(x,y)
-    plt.show()
-
 def main():
-    plt_func()
 
 if __name__ == "__main__":
     main()
