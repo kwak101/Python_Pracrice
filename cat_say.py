@@ -9,10 +9,21 @@ def cat_say(text):
     print ('        /')
     print ('        //')
 
+import tensorflow as tf
+
 def main():
     # in python2, use raw_input () instead of input ()
-    text = input ('what can cat say?')
-    cat_say(text)
+    #text = input ('what can cat say?')
+    #cat_say(text)
+
+    a = tf.placeholder("float")
+    b = tf.placeholder("float")
+
+    y = tf.multiply(a,b)
+
+    sess = tf.Session()
+
+    print(sess.run(y, feed_dict={a:3, b:3}))
 
 if __name__ == '__main__':
     main()
