@@ -74,11 +74,11 @@ def k_means(in_XnYs, in_k, in_times):
     vectors = tf.constant(in_XnYs)
     k = in_k
     centroids = tf.Variable(tf.slice(tf.random_shuffle(vectors), [0,0], [k,-1]))
-
     expanded_vectors = tf.expand_dims(vectors,0)
     expanded_centroids = tf.expand_dims(centroids,1)
 
     assignments = tf.argmin(tf.reduce_sum(tf.square(tf.subtract(expanded_vectors, expanded_centroids)),2),0)
+
     mean_reds =  [tf.reduce_mean (tf.gather(vectors, tf.reshape(tf.where(tf.equal(assignments,c)), [1,-1] ) ), reduction_indices=[1] ) for c in range(k) ]
     means = tf.concat (mean_reds, 0)
     print("{0} -> {1}".format(mean_reds,means))
@@ -90,32 +90,67 @@ def k_means(in_XnYs, in_k, in_times):
     sess = tf.Session()
     sess.run(init_op)
 
+#   텐서 내부의 값을 찍을 때는 sess.run(var)를 print하자
+#    for c in [0,1,2,3]:
+#        ee = tf.where(tf.equal(assignments,c))
+#        print(sess.run(ee))
+
     print ('p')
     for step in range(in_times):
-        print('step')
         _, centroid_values, assignment_values = sess.run([update_centroids, centroids, assignments])
 
     data = {"x":[], "y":[], "cluster": []}
 
     print(len(assignment_values))
     for i in range(len(assignment_values)):
-        print(i)
         data["x"].append(in_XnYs[i][0])
         data["y"].append(in_XnYs[i][1])
         data["cluster"].append(assignment_values[i])
 
-    print(data)
     df = pd.DataFrame(data)
     sns.lmplot("x", "y", data=df, fit_reg=False, size=6, hue="cluster", legend=False)
-#    plt.plot(data["x"], data["y"], 'ro')
     plt.show()
-    print('s')
+
+def mnist_simple_nn(in_lR, in_iN):
+    from tensorflow.examples.tutorials.mnist import input_data
+
+    mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+    tf.convert_to_tensor(mnist.train.images).get_shape()
+
+    W = tf.Variable(tf.zeros([784,10]))
+    b = tf.Variable(tf.zeros([10]))
+    x = tf.placeholder("float", [None, 784]) # connected to training data from MNIST
+    y = tf.nn.softmax(tf.matmul(x,W) + b)
+    y_t = tf.placeholder("float", [None, 10]) # connected to labels from MNIST
+
+    cross_entropy = -tf.reduce_sum(y_t * tf.log(y))
+    train_step = tf.train.GradientDescentOptimizer(in_lR).minimize(cross_entropy)
+
+    sess = tf.Session()
+
+    sess.run(tf.global_variables_initializer())
+
+    for i in range(in_iN):
+        batch_xs, batch_ys = mnist.train.next_batch(100)
+        sess.run(train_step, feed_dict={x:batch_xs, y_t:batch_ys})
+
+    correct_precision = tf.equal(tf.argmax(y, 1), tf.argmax(y_t, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_precision, "float"))
+
+    rst = sess.run(accuracy, feed_dict={x:mnist.test.images, y_t: mnist.test.labels})
+    print (rst)
+
+def mnist_cnn(in_lR, in_iN)
+
+
 
 def main():
     #first_tf()
-    xy = preprare_data(0.1, 0.3, 2000, 'b')
+    #xy = preprare_data(0.1, 0.3, 2000, 'b')
     #linear_regress(xy, 100)
-    k_means(xy, 4, 100)
+    #k_means(xy, 4, 100)
+    mnist_simple_nn(0.01, 1000:memoryview)
+
 
 if __name__ == "__main__":
     main()
