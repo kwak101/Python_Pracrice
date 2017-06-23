@@ -160,8 +160,8 @@ def mnist_cnn(in_Ap, in_iN):
     from tensorflow.examples.tutorials.mnist import input_data
     mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
-    x = tf.placeholder("float", shape = [None, 784]) # holds input image data  (number is undefined)
-    y_t = tf.placeholder("float", shape= [None, 10]) # holds answer set (number is undefined)
+    x = tf.placeholder("float", shape = [None, 784]) # holds input image data  (data size is undefined)
+    y_t = tf.placeholder("float", shape= [None, 10]) # holds answer set (data size is undefined)
 
     x_img = tf.reshape(x, [-1,28,28,1])
     print ("x_image={0}".format(x_img))
@@ -210,14 +210,27 @@ def mnist_cnn(in_Ap, in_iN):
     print("test accuracy: {0}".format(sess.run(accuracy,
          feed_dict={x:mnist.test.images, y_t:mnist.test.labels, keep_prob:1.0})))
 
+def system_test():
+    import tensorflow as tf
+    # 아래 한 줄은 GPU에서만 동작함
+    #with tf.device('/gpu:2'):
+    a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[2,3], name='a')
+    b = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0], shape=[3,2], name='b')
+    c = tf.matmul(a,b)
+
+    sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+    print (sess.run(c))
+
+
 
 def main():
     #first_tf()
     #xy = preprare_data(0.1, 0.3, 2000, 'b')
     #linear_regress(xy, 100)
     #k_means(xy, 4, 100)
-    #mnist_simple_nn(0.01, 1000)
-    mnist_cnn(1e-4, 1000)
+    mnist_simple_nn(0.01, 1000)
+    #mnist_cnn(1e-4, 1000)
+    #system_test()
 
 if __name__ == "__main__":
     main()
